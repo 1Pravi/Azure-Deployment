@@ -1,29 +1,22 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy Node.js app to Azure Web App - NanoWex
+name: Your Workflow
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  build:
+  your-job:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Node.js version
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20' # Set Node.js version to 20
-
-      - name: Install Dependencies, Build, and Test
+      - name: Set Working Directory, Clean npm Cache, and Run npm Commands
         run: |
+          cd /home/runner/work/xdfb/xdfb/
+          npm cache clean --force
           npm install
           npm run build --if-present
           npm run test --if-present
@@ -39,10 +32,10 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: your-job
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      url: ${{ needs.your-job.outputs.webapp-url }}
 
     steps:
       - name: Download artifact from build job
@@ -53,15 +46,4 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip -o release.zip -d $GITHUB_WORKSPACE
 
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }} # Use service principal credentials
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'NanoWex'
-          slot-name: 'Production'
-          package: .
+      # Continue with the rest of your deployment steps
