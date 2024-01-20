@@ -13,9 +13,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set Working Directory, Clean npm Cache, and Run npm Commands
+      - name: Set Working Directory and Run npm Commands
         run: |
-          cd /home/runner/work/xdfb/xdfb/
+          cd /home/runner/work/xdfb/xdfb/ || exit
           npm cache clean --force
           npm install
           npm run build --if-present
