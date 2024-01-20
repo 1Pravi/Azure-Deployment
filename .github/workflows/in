@@ -1,13 +1,24 @@
-env:
-  NODE_VERSION: '18.x'                # set this to the node version to use
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@main
-    - name: Use Node.js ${{ env.NODE_VERSION }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ env.NODE_VERSION }}
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Node.js and npm
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Install Dependencies
+        run: npm install
+
+      # Add additional steps for building, testing, etc.
