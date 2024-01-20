@@ -1,3 +1,10 @@
-              - name: Azure WebApp
-                uses: Azure/webapps-deploy@v3.0.0
-            
+ - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: git config --global url."https://${{ secrets.PAT }}@github.com/".insteadOf ssh://git@github.com/
+      - run: npm ci
+      ...
+
